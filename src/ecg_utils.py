@@ -6,7 +6,7 @@ Helper functions for loading, processing, and visualizing ECG data
 import numpy as np
 import matplotlib.pyplot as plt
 import wfdb
-    import plotly.graph_objects as go
+import plotly.graph_objects as go
 
 
 
@@ -33,6 +33,31 @@ def load_ecg(record_name, database_path):
     record = wfdb.rdrecord(f"{database_path}/{record_name}")
     fs = record.fs
     ecg = record.p_signal[:, 0]  # Lead 1 or MLII depending on DB
+    return ecg, fs, record
+
+def load_ecg_int(record_name, database_path):
+    """
+    Load ECG from PhysioNet using WFDB.
+    
+    Parameters:
+    -----------
+    record_name : str
+        Record identifier (e.g., '100')
+    database_path : str
+        Path to database directory
+    
+    Returns:
+    --------
+    ecg : numpy array
+        ECG signal data as integers
+    fs : int
+        Sampling frequency in Hz
+    record : wfdb.Record
+        Full record object with metadata
+    """
+    record = wfdb.rdrecord(f"{database_path}/{record_name}", physical=False)
+    fs = record.fs
+    ecg = record.d_signal[:, 0]  # Lead 1 or MLII depending on DB (digital/integer values)
     return ecg, fs, record
 
 
