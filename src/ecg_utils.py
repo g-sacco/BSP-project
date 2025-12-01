@@ -83,9 +83,10 @@ def load_annotations(record_name, database_path, extension='atr'):
     return annotation
 
 
-def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal'):
+def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal', 
+             p_events=None, qrs_events=None, t_events=None):
     """
-    Plot ECG signal with optional annotations overlay.
+    Plot ECG signal with optional annotations and P-QRS-T events overlay.
     
     Parameters:
     -----------
@@ -101,6 +102,12 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal'):
         If None, shows the full signal.
     title : str
         Plot title
+    p_events : dict or None
+        P wave events with keys: 'onset', 'peak', 'offset' (sample indices)
+    qrs_events : dict or None
+        QRS events with keys: 'onset', 'peak', 'offset' (sample indices)
+    t_events : dict or None
+        T wave events with keys: 'onset', 'peak', 'offset' (sample indices)
     """
     # Create time array
     time = np.arange(len(ecg)) / fs
@@ -129,6 +136,39 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal'):
             ax.axvline(t, color='blue', alpha=0.3, linewidth=0.8)
             ax.text(t, ecg[sample], s, fontsize=8, ha='center', va='bottom')
     
+    # Plot P-QRS-T events
+    event_configs = [
+        (p_events, 'P', 'green', {'onset': '^', 'peak': 'o', 'offset': 'v'}),
+        (qrs_events, 'QRS', 'purple', {'onset': '^', 'peak': 's', 'offset': 'v'}),
+        (t_events, 'T', 'orange', {'onset': '^', 'peak': 'o', 'offset': 'v'})
+    ]
+    
+    for events, label, color, markers in event_configs:
+        if events is not None:
+            for event_type in ['onset', 'peak', 'offset']:
+                if event_type in events and events[event_type] is not None:
+                    event_samples = np.array(events[event_type])
+                    event_times = event_samples / fs
+                    
+                    # Filter to time range
+                    if time_range is not None:
+                        mask = (event_times >= time_range[0]) & (event_times <= time_range[1])
+                        event_samples_filtered = event_samples[mask].astype(int)
+                        event_times_filtered = event_times[mask]
+                    else:
+                        event_samples_filtered = event_samples.astype(int)
+                        event_times_filtered = event_times
+                    
+                    # Plot markers
+                    if len(event_samples_filtered) > 0:
+                        ax.scatter(event_times_filtered, ecg[event_samples_filtered], 
+                                 marker=markers[event_type], color=color, s=50, 
+                                 label=f'{label} {event_type}', zorder=5)
+    
+    # Add legend if events are plotted
+    if any(e is not None for e, _, _, _ in event_configs):
+        ax.legend(loc='upper right', fontsize=8)
+    
     # Add grid
     ax.grid(True, which='major', linestyle='-', linewidth=0.5, color='red', alpha=0.3)
     ax.grid(True, which='minor', linestyle='-', linewidth=0.3, color='red', alpha=0.15)
@@ -154,7 +194,8 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal'):
         print(f"Annotations displayed: {len(ann_time_filtered) if time_range else len(annotations.sample)}")
 
 
-def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG Signal - Interactive'):
+def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG Signal - Interactive',
+                        p_events=None, qrs_events=None, t_events=None):
     """
     Plot ECG signal with Plotly interactive visualization.
     
@@ -172,6 +213,12 @@ def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG 
         If None, shows the full signal.
     title : str
         Plot title
+    p_events : dict or None
+        P wave events with keys: 'onset', 'peak', 'offset' (sample indices)
+    qrs_events : dict or None
+        QRS events with keys: 'onset', 'peak', 'offset' (sample indices)
+    t_events : dict or None
+        T wave events with keys: 'onset', 'peak', 'offset' (sample indices)
     """    
     # Create time array
     time = np.arange(len(ecg)) / fs
@@ -212,6 +259,43 @@ def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG 
                 annotation_text=s,
                 annotation_position='top'
             )
+    
+    # Plot P-QRS-T events
+    event_configs = [
+        (p_events, 'P', 'green', {'onset': 'triangle-up', 'peak': 'circle', 'offset': 'triangle-down'}),
+        (qrs_events, 'QRS', 'purple', {'onset': 'triangle-up', 'peak': 'square', 'offset': 'triangle-down'}),
+        (t_events, 'T', 'orange', {'onset': 'triangle-up', 'peak': 'circle', 'offset': 'triangle-down'})
+    ]
+    
+    for events, label, color, markers in event_configs:
+        if events is not None:
+            for event_type in ['onset', 'peak', 'offset']:
+                if event_type in events and events[event_type] is not None:
+                    event_samples = np.array(events[event_type])
+                    event_times = event_samples / fs
+                    
+                    # Filter to time range
+                    if time_range is not None:
+                        mask = (event_times >= time_range[0]) & (event_times <= time_range[1])
+                        event_samples_filtered = event_samples[mask].astype(int)
+                        event_times_filtered = event_times[mask]
+                    else:
+                        event_samples_filtered = event_samples.astype(int)
+                        event_times_filtered = event_times
+                    
+                    # Plot markers
+                    if len(event_samples_filtered) > 0:
+                        fig.add_trace(go.Scatter(
+                            x=event_times_filtered,
+                            y=ecg[event_samples_filtered],
+                            mode='markers',
+                            name=f'{label} {event_type}',
+                            marker=dict(
+                                symbol=markers[event_type],
+                                size=8,
+                                color=color
+                            )
+                        ))
     
     fig.update_layout(
         title=f'{title} (Drag to zoom, double-click to reset)',
