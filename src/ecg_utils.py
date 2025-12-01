@@ -140,14 +140,18 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal',
     event_configs = [
         (p_events, 'P', 'green', {'onset': '^', 'peak': 'o', 'offset': 'v'}),
         (qrs_events, 'QRS', 'purple', {'onset': '^', 'peak': 's', 'offset': 'v'}),
-        (t_events, 'T', 'orange', {'onset': '^', 'peak': 'o', 'offset': 'v'})
+        (t_events, 'T', 'orange', {'peak': 'o', 'offset': 'v', 'end': 'd'})
     ]
     
     for events, label, color, markers in event_configs:
         if events is not None:
-            for event_type in ['onset', 'peak', 'offset']:
+            for event_type in markers.keys():
                 if event_type in events and events[event_type] is not None:
-                    event_samples = np.array(events[event_type])
+                    # Filter out None values
+                    event_list = [e for e in events[event_type] if e is not None]
+                    if len(event_list) == 0:
+                        continue
+                    event_samples = np.array(event_list)
                     event_times = event_samples / fs
                     
                     # Filter to time range
@@ -218,7 +222,7 @@ def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG 
     qrs_events : dict or None
         QRS events with keys: 'onset', 'peak', 'offset' (sample indices)
     t_events : dict or None
-        T wave events with keys: 'onset', 'peak', 'offset' (sample indices)
+        T wave events with keys: 'peak', 'offset', 'end' (sample indices)
     """    
     # Create time array
     time = np.arange(len(ecg)) / fs
@@ -264,14 +268,18 @@ def plot_ecg_interactive(ecg, fs, annotations=None, time_range=None, title='ECG 
     event_configs = [
         (p_events, 'P', 'green', {'onset': 'triangle-up', 'peak': 'circle', 'offset': 'triangle-down'}),
         (qrs_events, 'QRS', 'purple', {'onset': 'triangle-up', 'peak': 'square', 'offset': 'triangle-down'}),
-        (t_events, 'T', 'orange', {'onset': 'triangle-up', 'peak': 'circle', 'offset': 'triangle-down'})
+        (t_events, 'T', 'orange', {'peak': 'circle', 'offset': 'triangle-down', 'end': 'diamond'})
     ]
     
     for events, label, color, markers in event_configs:
         if events is not None:
-            for event_type in ['onset', 'peak', 'offset']:
+            for event_type in markers.keys():
                 if event_type in events and events[event_type] is not None:
-                    event_samples = np.array(events[event_type])
+                    # Filter out None values
+                    event_list = [e for e in events[event_type] if e is not None]
+                    if len(event_list) == 0:
+                        continue
+                    event_samples = np.array(event_list)
                     event_times = event_samples / fs
                     
                     # Filter to time range
