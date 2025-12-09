@@ -1,0 +1,132 @@
+<!--#set var="TITLE" value="Contributors to the European ST-T Database"-->
+<!--#set var="USELOCALCSS" value="1"-->
+<!--#include virtual="/head.shtml"-->
+
+
+<p>
+The <a href="/index.shtml">European ST-T Database</a> was produced as
+a result of the European Community's &ldquo;Concerted Action on Ambulatory
+Monitoring&rdquo; (project II.2.4, Ambulatory Monitoring, contract MR049;
+see <a href="#refs">references</a> below), which was begun in 1985
+with the goal of defining an ECG database as a reference for assessing
+the quality of ambulatory ECG analysis systems.  Experts from twelve
+nations participated in this initial phase of the project.  Given the
+existence of two standard arrhythmia databases [the <a
+href="/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database</a> and the
+AHA Database for Ventricular Arrhythmia Detectors], and the
+need to evaluate ischemia detectors, the participants agreed to
+concentrate on developing a standard for annotating ST segment and
+T-wave changes.  The European ST-T database was thus designed to complement
+rather than to replicate the AHA and MIT-BIH databases.</p>
+
+<p>
+Funding from the European Community supported development of the annotation
+protocol and of a small prototype database.  The Concerted Action ended in
+1986.  Development of the database was continued by the joint efforts of the
+Institute of Clinical Physiology of the National Research Council (CNR) in
+Pisa (Italy) and the Thoraxcenter of Erasmus University in Rotterdam
+(Netherlands), with the voluntary participation of thirteen research groups
+from eight countries which provided ECG recordings and contributed to the
+demanding work of annotating them.  The European Society of Cardiology
+agreed to sponsor the remainder of the project, providing both financial and
+scientific backing so as to enable completion of the database.</p>
+
+<p>
+Creation of the Database has been supported with dedication and
+enthusiasm by many cardiologists, Holter technicians, laboratory
+assistants, and engineers at research institutions throughout the
+European Community and beyond.  We gratefully acknowledge their
+contributions.  In particular, we wish to thank:</p>
+
+<ul>
+<li> The <i>Project Management Group</i>, whose members directed the
+European Community's Concerted Action on Ambulatory Monitoring:
+<i>D. Clement</i> (Belgium),
+<i>P. Coumel</i> (France),
+<i>C. Marchesi</i> (Italy),
+<i>F. Stott</i> (United Kingdom), and
+<i>C. Zeelenberg</i> (Netherlands).</li>
+
+<li> The <i>research groups</i> which contributed to the definition of the
+protocol for annotating ST-T changes.  The leaders of these research groups
+were:
+<i>A. Algra</i> (Netherlands),
+<i>A. Bayes de Luna</i> (Spain),
+<i>A. Biagini</i> (Italy),
+<i>P. Bjerregaard</i> (Denmark),
+<i>S. Chierchia</i> (United Kingdom),
+<i>C. Contini</i> (Italy),
+<i>F. Fillette</i> (France),
+<i>E. Hoberg</i> (Federal Republic of Germany),
+<i>P. Maisonblanche</i> (France),
+<i>R.G. Mark</i> (USA),
+<i>J.L. Medvedovsky</i> (France),
+<i>S. Moulopoulos</i> (Greece),
+<i>K. von Olshausen</i> (Federal Republic of Germany),
+<i>O. Pahlm</i> (Sweden),
+<i>E. Sandoe</i> (Denmark),
+<i>N. Saranummi</i> (Finland),
+<i>G. Specchia</i> (Italy),
+<i>A. Taddei</i> (Italy),
+<i>D. Tayler</i> (United Kingdom),
+<i>J. Willems</i> (Belgium), and
+<i>Chr. Zywietz</i> (Federal Republic of Germany).</li>
+
+<li> The experts who contributed ECG recordings and performed the difficult
+task of beat-by-beat annotation of the ECGs:
+<i>A. Algra</i> (Netherlands),
+<i>L.P. Anthopoulos</i> (Greece),
+<i>A. Biagini</i> (Italy),
+<i>P. Bjerregaard</i> (Denmark),
+<i>G. Del Rosso</i> (Italy),
+<i>F. Fillette</i> (France),
+<i>N. Ghanem</i> (France),
+<i>E. Hoberg</i> (Federal Republic of Germany),
+<i>M.T. La Rovere</i> (Italy),
+<i>H. Le Brun</i> (Netherlands),
+<i>P. Maisonblanche</i> (France),
+<i>M.G. Mazzei</i> (Italy),
+<i>H. Mickley</i> (Denmark),
+<i>M. Moller</i> (Denmark),
+<i>K. von Olshausen</i> (Federal Republic of Germany),
+<i>T. Parviainen</i> (Finland),
+<i>A. Petersen</i> (Denmark), and
+<i>P. Torner</i> (Spain).</li>
+
+<li> The members of the <i>Coordinating Group</i> at the Institute of
+Clinical Physiology;  particularly we mention for their continuous and
+and significant contributions to the realization of the database:
+<i>A. Biagini, G. Distante, M. Emdin, C. Marchesi, M.G. Mazzei, P. Pisani,
+N. Roggero, A. Taddei</i> (coordinator), and <i>M. Varanini</i>.  They
+designed the database, implemented software and hardware to support its
+development, solicited contributions of tapes, arranged and coordinated the
+work of the annotators, and supervised the verification of the annotations.</li>
+
+<li> The group of experts of the Thoraxcentrum of Erasmus University, in
+particular <i>A. Algra</i> and <i>C. Zeelenberg</i>, who contributed to the
+design and development of the database.</li>
+
+<li> Our colleagues at the Massachusetts Institute of Technology:
+<i>R.G. Mark</i>, who lent early and continuing support and advice;
+<i>G.B. Moody</i>, who assisted in editing the final annotations,
+developed software for annotation editing and for inclusion on the CD-ROM,
+and coordinated preparation of the CD-ROM version of the database and this
+directory; and
+<i>F. Jager</i> (visiting MIT from the Faculty of Electrical and Computer
+Engineering, Ljubljana, Slovenia), who reviewed the ST episodes in detail
+and identified episodes of axis shift.</li>
+</ul>
+
+<h3 id="refs">References</h3>
+
+<ol>
+<li> Marchesi C.  The European Community Concerted Action on Ambulatory
+Monitoring.  <i>Journal of Med. Eng. and Techn.</i> <b>10</b>:131-134 (1986).</li>
+
+<li> Taddei A, Benassi A, Biagini A, Bongiorni MG, Contini C, Distante G,
+Landucci L, Mazzei MG, Pisani P, Roggero N, Varanini M, Marchesi C.  ST-T
+change analysis in ECG ambulatory monitoring: a European standard for
+performance evaluation.  <i>Computers in Cardiology</i> <b>14</b>:63-68 (1987).</li>
+
+<!--#include virtual="/dir-footer.shtml"-->
+

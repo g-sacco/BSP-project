@@ -1,0 +1,283 @@
+<!--#set var="TITLE" value="Annotations in the European ST-T Database"-->
+<!--#set var="USELOCALCSS" value="1"-->
+<!--#include virtual="/head.shtml"-->
+
+
+<p>
+An initial set of beat labels was produced by a slope-sensitive QRS detector,
+which marked each detected event as a normal beat.  Each two-hour, two-channel
+ECG record was printed out in full disclosure format, each page two minutes
+in duration, with the addition of QRS detection marks, trend plots of ST
+segment displacement and T-wave amplitude (measured for each beat), and boxes
+for checking annotation operations.  For each record, two cardiologists
+(neither of whom was a member of the research group which had submitted the
+record) were given copies of the full-disclosure printout, trend plots of
+mean heart rate and ST-T parameters at 10-second intervals, and record-specific
+transparent plastic rulers for measuring time intervals and ECG signal
+displacements.  A heart rate scale and a two-channel
+<a href=#reference-beat>reference QRST complex</a>
+(taken from the first 30 seconds of each record) were printed on each ruler.</p>
+
+<p>
+Working independently, the cardiologist-annotators visually checked the
+computer-generated beat labels on the full-disclosure printouts and manually
+corrected them, and inserted annotations indicating changes in ST and T
+morphology, rhythm, and signal quality.  Annotations from the two cardiologists
+were compared and the differences were resolved by a cardiologist of the
+coordinating group.  This method assumes that the third cardiologist is able
+to make a more reliable judgement since he knows both sets of annotations.</p>
+
+<h2>Definition of ST and T episodes</h2>
+
+<p>
+The cardiologists participating in the project jointly defined and followed
+a set of rules for locating <i>ST episodes</i> and <i>T episodes</i> (i.e.,
+intervals during which the ECG exhibits significant ST segment or T-wave
+changes).  To identify and annotate an ST episode, these criteria were
+applied:</p>
+
+<ul>
+<li> <i>ST segment deviations</i> are measured relative to a reference
+waveform for each subject (usually selected from the first 30 seconds of
+each record).  Measurements of ST segment deviation are taken 80 milliseconds
+after the J point if the heart rate does not exceed 120 bpm, and 60
+milliseconds after the J point otherwise.</li>
+
+<li> <i>ST episodes</i> must contain an interval of at least 30 seconds during
+which the absolute value of the ST deviation is no less than 0.1 millivolt
+(mV).</li>
+
+<li> The <i>beginning</i> of each ST episode is annotated.  The beginning is
+located by searching backward from the time at which the absolute ST deviation
+first exceeds 0.1 mV.  The search continues until a beat is found for which
+the absolute ST deviation is less than 0.05 mV, and for which the absolute
+ST deviation is less than 0.1 mV throughout the previous 30 seconds.  An
+ST change annotation which indicates the beginning of the episode is placed
+immediately following this beat.</li>
+
+<li> The <i>peak</i> (i.e., the greatest deviation, positive or negative) of
+each ST episode is annotated.  An ST change annotation is placed before the
+beat judged to exhibit the greatest ST deviation;  this annotation contains
+a manual measurement of the peak ST deviation.</li>
+
+<li> The <i>end</i> of each ST episode is annotated.  The end is
+located by searching forward from the time at which the absolute ST deviation
+last exceeds 0.1 mV.  The search continues until a beat is found for which
+the absolute ST deviation is less than 0.05 mV, and for which the absolute
+ST deviation is less than 0.1 mV throughout the following 30 seconds.  An
+ST change annotation which indicates the end of the episode is placed
+immediately before this beat.</li>
+</ul>
+
+<p>To identify and annotate a T episode, similar criteria were applied:</p>
+
+<ul>
+<li> <i>T deviations</i> are measured relative to the same reference
+waveform which is used for measuring ST deviations.  The quantity
+<i>A<sub><font size=-1>T</font></sub></i> is defined as the amplitude
+of the dominant phase of the T-wave, measured relative to baseline (at
+the PQ junction); if the T-wave is inverted, or if the dominant phase
+of a biphasic T-wave is below the baseline, <i>A<sub><font
+size=-1>T</font></sub></i> is negative.  The T deviation is defined as
+the difference (positive or negative) between the values of
+<i>A<sub><font size=-1>T</font></sub></i> for the current waveform and
+for the reference waveform.</li>
+
+<li> <i>T episodes</i> must contain an interval of at least 30 seconds during
+which the absolute value of the T deviation is no less than 0.2 mV.</li>
+
+<li> The <i>beginning</i> of each T episode is annotated.  The beginning is
+located by searching backward from the time at which the absolute T deviation
+first exceeds 0.2 mV.  When an interval of at least 30 seconds is found in
+which the absolute T deviation does not exceed 0.2 mV, the end of that interval
+defines the beginning of the episode.  A T change annotation is placed before
+the first beat of the episode.</li>
+
+<li> The <i>peak</i> (i.e., the greatest deviation, positive or negative) of
+each T episode is annotated.  A T change annotation is placed before the
+beat judged to exhibit the greatest T deviation;  this annotation contains
+a manual measurement of the peak T deviation.</li>
+
+<li> The <i>end</i> of each T episode is annotated.  The end is
+located by searching forward from the time at which the absolute T
+deviation last exceeds 0.2 mV.  When an interval of at least 30
+seconds is found in which the absolute T deviation does not exceed 0.2
+mV, the beginning of that interval defines the end of the episode.  A
+T change annotation is placed after the last beat of the episode.</li>
+
+<li> Within T episodes which contain absolute T deviations exceeding 0.4 mV,
+additional T change annotations are placed whenever the absolute T deviation
+crosses the 0.4 mV threshold value which defines <i>extreme T deviations</i>.
+These additional T change annotations indicate the beginning and end of each
+such interval of extreme T deviation.</li>
+</ul>
+
+<p>
+These rules were applied to each of the two signals independently;  for this
+reason, each ST and T change annotation indicates the signal to which it
+applies.</p>
+
+<p>
+Each ST and T change annotation contains a text field which describes its
+significance.  The text field contains characters which identify the episode
+type ('ST' or 'T'), the signal number ('0' or '1'), and the direction of the
+deviation ('+' or '-';  extreme T deviations are signified by '++' and '--').
+The text field of an annotation which marks the beginning of an episode
+contains a '(' prefix.  For an annotation which marks the end of an episode,
+there is a prefixed 'A' and an appended 3- or 4-digit decimal number which
+expresses the magnitude of the peak deviation in microvolts.  An annotation
+which marks the end of an episode has a ')' appended to the end of its text
+field.  For example, an episode of ST depression in signal 0 with a peak
+(absolute) deviation of 200 microvolts would be marked by three annotations,
+with text fields of '(ST0-', 'AST0-200', and 'ST0-)'.</li>
+
+<p>
+In six records (e0161, e0509, e0601, e0611, e0613, and e0615), axis shifts
+resulting from positional change give the appearance of real ST or T changes.
+These axis shifts are annotated using comment annotations.  The text fields
+of these annotations are constructed in the same way as for ST and T change
+annotations, except that lower-case characters are used in order to make it
+easier to distinguish these axis shift episodes from real ST or T change
+episodes.  For example, an axis shift in signal 1 which gives the appearance
+of a peak T deviation of 350 microvolts would be marked by three annotations,
+with text fields of '(t1+', 'at1+350', and 't1+)'.</li>
+
+<h3>Annotation types</h3>
+
+<p>
+The following types of annotations appear in the European ST-T Database
+reference (<tt>.atr</tt>) annotation files.  The <b>Code</b> column shows
+the symbols defined in
+<a href="/physiotools/wfdb/lib/ecgcodes.h">ecgcodes.h</a>, and the
+<b>Mnemonic</b> column indicates how these annotations are displayed by
+WFDB applications such as <a href="/physiotools/dbag/wave-1.htm">WAVE</a>,
+<a href="/physiotools/dbag/wview-1.htm">WVIEW</a>, and
+<a href="/physiotools/dbag/pschar-1.htm">pschart</a>.</p>
+
+<div class="edbtable">
+<table>
+<th class="headerrow">Code</th><th>Mnemonic</th>
+ <th>Meaning</th></tr>
+<tr><td>NORMAL</td><td>&#149; [bullet]</td><td>Normal beat</td></tr>
+<tr><td>ABERR</td><td>a</td><td>Aberrated atrial premature beat</td></tr>
+<tr><td>NPC</td><td>J</td><td>Nodal (junctional) premature beat</td></tr>
+<tr><td>SVPB</td><td>S</td><td>Supraventricular premature or ectopic beat
+ (atrial or nodal)</td></tr>
+<tr><td>PVC</td><td>V</td><td>Premature ventricular contraction</td></tr>
+<tr><td>FUSION</td><td>F</td><td>Fusion of ventricular and normal beat</td>
+ </tr>
+<tr><td>UNKNOWN</td><td>Q</td><td>Unclassifiable beat</td></tr>
+<tr><td>ARFCT</td><td>|</td><td>Isolated QRS-like artifact</td></tr>
+<tr><td valign=top>RHYTHM</td><td></td>
+ <td>Rhythm change, specified by text field:<br>
+ <table>
+ <tr><td>(AB</td><td>Atrial bigeminy</td></tr>
+ <tr><td>(AFIB</td><td>Atrial fibrillation</td></tr>
+ <tr><td>(B</td><td>Ventricular bigeminy</td></tr>
+ <tr><td>(B3</td><td>Third degree heart block</td></tr>
+ <tr><td>(N</td><td>Normal sinus rhythm</td></tr>
+ <tr><td>(SAB</td><td>Sino-atrial block</td></tr>
+ <tr><td>(SBR</td><td>Sinus bradycardia</td></tr>
+ <tr><td>(SVTA</td><td>Supraventricular tachyarrhythmia</td></tr>
+ <tr><td>(T</td><td>Ventricular trigeminy</td></tr>
+ <tr><td>(VT</td><td>Ventricular tachycardia</td></tr>
+ </table></td></tr>
+<tr><td valign=top>STCH</td><td></td>
+ <td>ST change, specified by text field:<br>
+ <table>
+ <tr><td>(ST...</td><td>Beginning of ST episode</td></tr>
+ <tr><td>AST...</td><td>Peak of ST episode</td></tr>
+ <tr><td>ST...)</td><td>End of ST episode</td></tr>
+ </table></td></tr>
+<tr><td valign=top>TCH</td><td></td>
+ <td>T change, specified by text field:<br>
+ <table>
+ <tr><td>(T...</td><td>Beginning of T episode</td></tr>
+ <tr><td>AT...</td><td>Peak of T episode</td></tr>
+ <tr><td>T...)</td><td>End of T episode</td></tr>
+ </table></td></tr>
+<tr><td valign=top>NOTE</td><td></td>
+ <td>Comment annotation, specified by text field:<br>
+ <table>
+ <tr><td>(st...</td>
+   <td>Beginning of ST deviation resulting from axis shift</td></tr>
+ <tr><td>ast...</td>
+   <td>Peak of ST deviation resulting from axis shift</td></tr>
+ <tr><td>st...)</td>
+   <td>End of ST deviation resulting from axis shift</td></tr>
+ <tr><td>(t...</td>
+   <td>Beginning of T deviation resulting from axis shift</td></tr>
+ <tr><td>at...</td>
+   <td>Peak of T deviation resulting from axis shift</td></tr>
+ <tr><td>t...)</td>
+   <td>End of T deviation resulting from axis shift</td></tr>
+ <tr><td>BUTTON</td>
+   <td>Patient-activated event button pressed</td></tr>
+ <tr><td>TS</td>
+   <td>Tape slippage</td></tr>
+ </table></td></tr>
+<tr><td valign=top>NOISE</td><td valign=top><i>qq</i></td>
+ <td>Signal quality change:  the first character ('c', 'n', or 'u')
+       indicates the quality of signal 0 (clean, noisy, or unreadable),
+       and the second character indicates the quality of signal 1.
+       The <tt>subtyp</tt> field of the annotation encodes these
+       characters:<br>
+ <table>
+ <tr><td>0x00</td><td>cc</td>
+ <tr><td>0x01</td><td>nc</td>
+ <tr><td>0x02</td><td>cn</td>
+ <tr><td>0x03</td><td>nn</td>
+ <tr><td>0x11</td><td>uc</td>
+ <tr><td>0x12</td><td>un</td>
+ <tr><td>0x20</td><td>cu</td>
+ <tr><td>0x21</td><td>nu</td>
+ <tr><td>0x33</td><td>uu</td>
+ </table></td></tr>
+</table> 
+</div> <!-- end edbtable -->
+
+<h3 id="reference-beat">Which was the reference beat in each record?</h3>
+
+<p>
+As noted above, the expert annotators were given a clear plastic
+template on which had been printed a reference waveform.  The position
+of this waveform was not recorded, however, and the original plastic
+templates no longer exist.  The only available information about the
+choice of reference beat is that the waveform was taken from the first
+30 seconds of the record being annotated.  One may assume that the
+waveform was typical of those within the 30-second interval, and that
+if the amount of noise varied significantly within the interval, the
+reference was one of the cleaner waveforms.</p>
+
+<p>
+As a practical matter for evaluation of an algorithm for automated ST
+analysis using this database, this question need not be an issue.
+Some of the patients represented in the database had prior myocardial
+infarctions with consequent fixed ST elevation or depression.  The ST
+annotations in this database mark transient ST changes that are
+superimposed on any fixed elevation or depression.  The important
+point is that this database's annotations provide samples not of
+the <em>ST level</em> function (the difference, for any given time,
+between the ECG amplitudes of the nearest beat during the ST segment
+and at the isoelectric point), but of the <em>ST deviation</em>
+function (the difference between the ST level function measured at any
+given time and during the first 30 seconds of the record).
+Put another way, the ST level function is the sum of the fixed
+elevation or depression (the reference ST level) and the transient
+changes in ST level (the ST deviation function).</p>
+
+<p>
+To use this database to evaluate an ST analysis algorithm, the
+algorithm needs to estimate the ST deviation function, a
+task that requires determining its own reference ST level (using any
+desired method;  a median of its ST level measurements made during the
+first 30 seconds is a commonly used approach).  The algorithm's ST
+deviation function is the difference between its ST level function and its
+reference ST level.  See <a href="/physiotools/wag/epicmp-1.htm">epicmp</a>
+for details on how to record an algorithm's ST deviation function in an
+annotation file, and how to use standard software to measure how well
+an algorithm's ST deviation measurements match those provided with the
+database.</p>
+
+<!--#include virtual="/dir-footer.shtml"-->
+
