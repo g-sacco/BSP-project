@@ -1,4 +1,7 @@
-# BSP-project
+# Biomedical Signal Processing project exam
+Giacomo Sacco 82389A
+
+Università degli Studi di Milano 2025/26
 
 ## Source Code Directory (`src/`)
 
