@@ -5,10 +5,11 @@ def remove_group_delay(details):
     Remove group delay from detail coefficients. 
     Using equations (4.1), (4.2), (4.3) from the paper.
     '''
+    # for each scale k
     for k in details.keys():
         if k == 1:
             # For k=1: tau_1_G = -2^(1-2) = -2^(-1) = -0.5 ≈ 0 (rounds to 0)
-            tau = -2**(1 - 2)  # This equals -0.5
+            tau = -2**(1 - 2)  
         else:
             # k >= 2: sum of H filter delays + G filter delay
             tau = 0
@@ -20,7 +21,6 @@ def remove_group_delay(details):
             tau_G = -2**(k - 2)
             tau += tau_G
         
-        # Negative tau means shift right (delay), so we shift left to compensate
         shift = int(np.round(tau))
         if shift != 0:
             details[k] = np.roll(details[k], shift)
@@ -35,7 +35,7 @@ def integer_wavelet_transform(ecg_signal, levels=4):
     Parameters:
     -----------
     ecg_signal : array-like
-        Raw ECG signal (assumed to be in integer format, e.g., 12-bit ADC values)
+        Raw ECG signal (integer values)
     levels : int
         Number of decomposition levels (default 4 for scales 2^1 to 2^4)
     

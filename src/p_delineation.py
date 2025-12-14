@@ -28,17 +28,35 @@ def biphasic_second_condition(AMMp_P, AMMp_bi):
 
 
 def p_delineation(details, fs, QRS_onset, r_peaks):
+    """
+    P wave delineation following Di Marco & Chiari (2011)
+
+    Parameters:
+    -----------
+    details : dict
+        Dictionary of wavelet detail coefficients at different scales
+    fs : int
+        Sampling frequency (samples/s)
+    QRS_onset : list
+        List of QRS onset positions
+    r_peaks : list
+        R-peak positions 
+
+    Returns:
+    --------
+    p_peaks : list
+        List of P peak positions
+    p_onsets : list
+        List of P onset positions
+    p_offsets : list
+        List of P offset positions
+    """
+
     d3 = details[3]
     p_peaks = []
     p_onsets = []
     p_offsets = []
     max_window = int(fs * 0.3)  # 300 ms maximum window
-
-    # Diagnostic counters
-    # no_zero_crossings = 0
-    # no_peak_found = 0
-    # onset_failed = 0
-    # offset_failed = 0
 
     # find P wave
     for i_qrs, qrs_onset in enumerate(QRS_onset):
@@ -110,26 +128,13 @@ def p_delineation(details, fs, QRS_onset, r_peaks):
                     p_peaks.append(None)
                     p_onsets.append(None)
                     p_offsets.append(None)
-                    # if not candidate_onset:
-                    #     onset_failed += 1
-                    # if not candidate_offset:
-                    #     offset_failed += 1
             else:
                 p_peaks.append(None)
                 p_onsets.append(None)
                 p_offsets.append(None)
-                # no_peak_found += 1
         else:
             p_peaks.append(None)
             p_onsets.append(None)
             p_offsets.append(None)
-            # no_zero_crossings += 1
-
-    # print(f"Number of P-waves delineation succeded: {sum(1 for p in p_peaks if p is not None)}")
-    # print(f"\nDiagnostic breakdown:")
-    # print(f"  - No zero crossings found: {no_zero_crossings}")
-    # print(f"  - Zero crossings found but no valid peak: {no_peak_found}")
-    # print(f"  - Peak found but onset search failed: {onset_failed}")
-    # print(f"  - Peak found but offset search failed: {offset_failed}")
 
     return p_peaks, p_onsets, p_offsets

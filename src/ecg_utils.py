@@ -84,7 +84,8 @@ def load_annotations(record_name, database_path, extension='atr'):
 
 
 def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal', 
-             p_events=None, qrs_events=None, t_events=None):
+             p_events=None, qrs_events=None, t_events=None, figsize=(10, 5), 
+             qrs_d2_peaks_pos=None):
     """
     Plot ECG signal with optional annotations and P-QRS-T events overlay.
     
@@ -108,12 +109,17 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal',
         QRS events with keys: 'onset', 'peak', 'offset' (sample indices)
     t_events : dict or None
         T wave events with keys: 'onset', 'peak', 'offset' (sample indices)
+    figsize : tuple
+        Figure size as (width, height) in inches. Default is (10, 5).
+    qrs_d2_peaks_pos : list of tuples or None
+        List of (R_pre, R_post) tuples containing sample indices for QRS peak positions
+        detected from wavelet detail level 2. Will be plotted as vertical lines.
     """
     # Create time array
     time = np.arange(len(ecg)) / fs
     
     # Plot ECG signal
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=figsize)
     ax.plot(time, ecg, 'r-', linewidth=0.5, label='ECG')
     
     # Plot annotations if provided
@@ -172,6 +178,32 @@ def plot_ecg(ecg, fs, annotations=None, time_range=None, title='ECG Signal',
                         handles, labels = ax.get_legend_handles_labels()
                         by_label = dict(zip(labels, handles))
                         ax.legend(by_label.values(), by_label.keys(), loc='upper right', fontsize=8)
+    
+    # Plot QRS d2 peaks if provided
+    if qrs_d2_peaks_pos is not None:
+        for R_pre, R_post in qrs_d2_peaks_pos:
+            # Convert to time and filter by time_range
+            R_pre_time = R_pre / fs
+            R_post_time = R_post / fs
+            
+            # Check if in time range
+            if time_range is not None:
+                if R_pre_time >= time_range[0] and R_pre_time <= time_range[1]:
+                    ax.axvline(R_pre_time, color='cyan', linestyle=':', 
+                             linewidth=1.5, alpha=0.8, label='R_pre')
+                if R_post_time >= time_range[0] and R_post_time <= time_range[1]:
+                    ax.axvline(R_post_time, color='magenta', linestyle=':', 
+                             linewidth=1.5, alpha=0.8, label='R_post')
+            else:
+                ax.axvline(R_pre_time, color='cyan', linestyle=':', 
+                         linewidth=1.5, alpha=0.8, label='R_pre')
+                ax.axvline(R_post_time, color='magenta', linestyle=':', 
+                         linewidth=1.5, alpha=0.8, label='R_post')
+        
+        # Remove duplicate labels
+        handles, labels = ax.get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        ax.legend(by_label.values(), by_label.keys(), loc='upper right', fontsize=8)
     
     # Add grid
     ax.grid(True, which='major', linestyle='-', linewidth=0.5, color='red', alpha=0.3)

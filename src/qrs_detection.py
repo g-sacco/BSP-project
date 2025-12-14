@@ -10,7 +10,7 @@ def max_min_difference(signal):
 def is_zero_crossing(signal, i):
     '''
     Calculate if two point are a zero-crossing. 
-    If they are return the AMMp value, otherwise return 0.
+    If they are return the AMMp (Adjacent Modulus Maxima pair) value, otherwise return 0.
     '''
     # Check if there is a zero crossing between i-1 and i
     if (signal[i-1] <= 0 and signal[i] > 0) or (signal[i-1] > 0 and signal[i] <= 0):
@@ -41,10 +41,21 @@ def is_zero_crossing(signal, i):
 
 def qrs_detection(details, fs):
     '''
-    Docstring for QRS_detection
+    QRS detection algorithm (R peak detection) based on the detail coefficients at levels 2 and 3 (d^2 and d^3).
+
+    Parameters:
+    -----------
+    details : dict
+        Dictionary of detail coefficients at each scale k (key = k, value = d^k
+    fs : int
+        Sampling frequency of the ECG signal
     
-    :param details: detail coefficents from WT
-    :param fs: sampling frequency
+    Returns:
+    --------
+    r_peaks : array
+        Array of detected R peak positions (indices in the signal)
+    qrs_d2_peaks_pos : list of tuples
+        List of tuples containing the left and right AMMp positions for each detected QRS
     '''
     # detail levels used
     d2=details[2]
@@ -79,19 +90,30 @@ def qrs_detection(details, fs):
                     j_zc += 1
 
             # QRS candidate decision  
-            delta_window = max(0, i_zc-deltaW100), min(signal_length-1, i_zc+deltaW100)
+            delta_window = max(0, i_zc-deltaW100), min(signal_length, i_zc+deltaW100+1)  
             e_start = max(0, qrs_found-4)
             zc_d2_delta = max_min_difference(d2[delta_window[0]:delta_window[1]])
             if len(qrs_d2_delta[e_start:qrs_found]) > 0:
-                epsilon_d2 = np.right_shift(11 * sum(qrs_d2_delta[e_start:qrs_found]) // len(qrs_d2_delta[e_start:qrs_found]), 5)
-                #epsilon_d2 = sum(qrs_d2_delta[e_start:qrs_found]) / len(qrs_d2_delta[e_start:qrs_found]) * 11 / 32
+                # compute (11 * sum) / (32 * len) 
+                sum_d2 = sum(qrs_d2_delta[e_start:qrs_found])
+                len_d2 = len(qrs_d2_delta[e_start:qrs_found])
+                if len_d2 == 4:
+                    epsilon_d2 = (11 * sum_d2) >> 7
+                else:
+                    epsilon_d2 = (11 * sum_d2) // (32 * len_d2)  
             else:
                 epsilon_d2 = -np.inf
             # first test on d^2
             if zc_d2_delta > epsilon_d2:
                 zc_d3_delta = max_min_difference(d3[delta_window[0]:delta_window[1]])
                 if len(qrs_d3_delta[e_start:qrs_found]) > 0:
-                    epsilon_d3 = np.right_shift(11 * sum(qrs_d3_delta[e_start:qrs_found]) // len(qrs_d3_delta[e_start:qrs_found]), 5)
+                    # compute (11 * sum) / (32 * len) 
+                    sum_d3 = sum(qrs_d3_delta[e_start:qrs_found])
+                    len_d3 = len(qrs_d3_delta[e_start:qrs_found])
+                    if len_d3 == 4:
+                        epsilon_d3 = (11 * sum_d3) >> 7
+                    else:   
+                        epsilon_d3 = (11 * sum_d3) // (32 * len_d3)  
                 else:
                     epsilon_d3 = -np.inf
                 # second test on d^3
@@ -106,7 +128,4 @@ def qrs_detection(details, fs):
         else:
             i_zc += 1
 
-    #print(f'Total QRS found: {len(r_peaks)}')
-
-    #return r_peaks[4:]
     return r_peaks, qrs_d2_peaks_pos

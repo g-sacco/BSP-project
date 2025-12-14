@@ -2,13 +2,35 @@ import numpy as np
 from qrs_detection import is_zero_crossing
 
 def t_delineation(details, fs, QRS_offsets, r_peaks):
+    """
+    T wave delineation following Di Marco & Chiari (2011)
+
+    Parameters:
+    -----------
+    details : dict
+        Dictionary of wavelet detail coefficients at different scales
+    fs : int
+        Sampling frequency (samples/s)
+    QRS_offsets : list
+        List of QRS offset positions
+    r_peaks : list
+        R-peak positions 
+
+    Returns:
+    --------
+    t_peaks : list
+        List of T peak positions
+    t_offsets : list
+        List of T offset positions
+    t_ends : list
+        List of T end positions
+    """
     d3 = details[3]
     DW80 = int(0.08 * fs)
     t_peaks = []
     t_offsets = []
     t_ends = []
-    # i = QRS counter
-    # j = sample in the current window
+
     for i in range(1, len(QRS_offsets)):
         t_peak = t_off = t_end = None
         RR = r_peaks[i] - r_peaks[i-1]
@@ -73,6 +95,4 @@ def t_delineation(details, fs, QRS_offsets, r_peaks):
         t_offsets.append(t_off)
         t_ends.append(t_end)
         
-    #print(f"Number of T-waves delineation succeeded: {sum(1 for t in t_peaks if t is not None)}")
-
     return t_peaks, t_offsets, t_ends

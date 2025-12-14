@@ -21,7 +21,15 @@ def qrs_delineation(details, fs, r_peaks, qrs_d2_peaks_pos):
         R-peak positions (zero-crossings)
     qrs_d2_peaks_pos : list of tuples
         (npre, npost) positions for each QRS
+    
+    Returns:
+    --------
+    QRS_onsets : list
+        List of QRS onset positions
+    QRS_offsets : list
+        List of QRS offset positions
     """
+
     d2 = details[2]
     fixed_window = int(fs * 0.120)  # 120 ms fixed window in samples
     QRS_onsets = []
@@ -31,7 +39,7 @@ def qrs_delineation(details, fs, r_peaks, qrs_d2_peaks_pos):
         npre = qrs_d2_peaks_pos[key][0]
         npost = qrs_d2_peaks_pos[key][1]
 
-        # Use absolute values for threshold calculations
+        # Use absolute values for threshold calculations (not specified in paper)
         d2_npre_abs = abs(int(d2[npre]))
         d2_npost_abs = abs(int(d2[npost]))
         
@@ -58,8 +66,7 @@ def qrs_delineation(details, fs, r_peaks, qrs_d2_peaks_pos):
             # Check for local maximum
             if is_local_max(d2, i):
                 if mod_d2i <= e2_onset:
-                    # Found maximum below e2_onset threshold - stop here
-                    n_left = i
+                    # Found maximum below e2_onset threshold (NOISE) - stop here
                     break
                 else:
                     # Found maximum above threshold - keep searching but store it
@@ -110,7 +117,7 @@ def qrs_delineation(details, fs, r_peaks, qrs_d2_peaks_pos):
             # Check for local maximum
             if is_local_max(d2, i):
                 if mod_d2i <= e2_offset:
-                    n_right = i
+                    # Found maximum below e2_offset threshold (NOISE) - stop here
                     break
                 else:
                     n_right = i
