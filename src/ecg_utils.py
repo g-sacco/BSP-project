@@ -1,8 +1,3 @@
-"""
-ECG Utility Functions
-Helper functions for loading, processing, and visualizing ECG data
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import wfdb
